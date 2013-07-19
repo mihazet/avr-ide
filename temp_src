@@ -1,0 +1,303 @@
+///////////////////////////////////////////////////////////////////////////////
+	wxString loc = "";
+	wxString lastLoc = "";
+	bool locIsFunct = false;
+	wxString lastFile = "";
+
+	for (size_t i = 0; i < reader.GetCount(); ++i)
+	{
+		wxString line = reader[i];
+		wxString re1 = "([a-z0-9_]+)";	// Variable Name 1
+		wxString re2 = "(\\.)";			// Any Single Character 1
+		wxString re3 = "([a-z0-9_]+)";	// Variable Name 2
+		wxString re4 = "(:)";			// Any Single Character 2
+		wxString re5 = "(\\d+)";		// Integer Number 1
+		wxString re6 = "(:)";			// Any Single Character 3
+		wxString re7 = "( )";			// White Space 1
+		wxString re8 = "((?:[a-z][a-z]+))";		// Word 2
+		wxString re9 = "(:)";			// Any Single Character 4
+		wxString re10 = "( )";			// White Space 2
+		wxString re11 = "(.*)";			// The Rest
+
+		wxRegEx r(re1 + re2 + re3 + re4 + re5 + re6 + re7 + re8 + re9 + re10 + re11, wxRE_ICASE|wxRE_DEFAULT);
+		if ( r.Matches(line) )
+		{
+			wxString fileName = r.GetMatch(line, 1) + r.GetMatch(line, 2) + r.GetMatch(line, 3);
+			wxString type = r.GetMatch(line, 8).Trim();
+			wxString lineNum = r.GetMatch(line, 5).Trim();
+			wxString msg = r.GetMatch(line, 11).Trim();
+
+			if (!msg.IsEmpty())
+			{
+				if (lastFile != fileName && loc == lastLoc)
+				{
+					loc = "";
+					lastLoc = "";
+				}
+
+				if (type.Lower().Contains("error"))
+					hasError++;
+
+				wxListItem li = CreateListItem(0, fileName.c_str(), lineNum.c_str(), loc.c_str(), type.c_str(), msg.c_str());
+				ListViewModify(m_errorList, li);
+
+				if (type.Lower().Contains("warn") == false && msg.Trim().Lower() != "from")
+					ListViewModify(m_errorOnlyList, li);
+
+				lastLoc = loc;
+				lastFile = fileName;
+
+				if (locIsFunct == false)
+				{
+					loc = "";
+					lastLoc = "";
+				}
+			}
+			continue;
+		}
+
+		re1 = "(.*)";			// Non-greedy match on filler
+		re2 = "(\\/|\\\\)";		// Any Single Character 1
+		re3 = "([a-z0-9_]+)";	// Variable Name 1
+		re4 = "(\\.)";			// Any Single Character 2
+		re5 = "([a-z0-9_]+)";	// Variable Name 2
+		re6 = "(:)";			// Any Single Character 4
+		re7 = "(\\d+)";			// Integer Number 1
+		re8 = "(:)";			// Any Single Character 5
+		re9 = "(\\d+)";			// Integer Number 2
+		re10 = "(:)";			// Any Single Character 6
+		re11 = "(\\s+)";		// White Space 1
+		wxString re12 = "(.*)";	// Variable Name 3
+		wxString re13 = "(:)";	// Any Single Character 7
+		wxString re14 = "(.*)";	// Any Single Character 7
+
+		if (!r.Compile(re1 + re2 + re3 + re4 + re5 + re6 + re7 + re8 + re9 + re10 + re11 + re12 + re13 + re14))
+			wxMessageBox("Error compile pattern regex");
+		if (r.Matches(line))
+		{
+			wxString fileName = r.GetMatch(line, 3) + r.GetMatch(line, 4) + r.GetMatch(line, 5);
+			wxString type = r.GetMatch(line, 12).Trim();
+			wxString lineNum = r.GetMatch(line, 17).Trim();
+			wxString msg = r.GetMatch(line, 14).Trim();
+
+			if (!msg.IsEmpty())
+			{
+				if (lastFile != fileName && loc == lastLoc)
+				{
+					loc = "";
+					lastLoc = "";
+				}
+
+				if (type.Lower().Contains("error"))
+					hasError++;
+
+				wxListItem li = CreateListItem(0, fileName.c_str(), lineNum.c_str(), loc.c_str(), type.c_str(), msg.c_str());
+				ListViewModify(m_errorList, li);
+
+				if (type.Lower().Contains("warn") == false && msg.Trim().Lower() != "from")
+					ListViewModify(m_errorOnlyList, li);
+
+				lastLoc = loc;
+				lastFile = fileName;
+
+				if (locIsFunct == false)
+				{
+					loc = "";
+					lastLoc = "";
+				}
+			}
+			continue;
+		}
+
+		re1 = "(.*)";			// Non-greedy match on filler
+		re2 = "(\\/|\\\\)";		// Any Single Character 1
+		re3 = "([a-z0-9_]+)";	// Variable Name 1
+		re4 = "(\\.)";			// Any Single Character 2
+		re5 = "([a-z0-9_]+)";	// Variable Name 2
+		re6 = "(:)";			// Any Single Character 4
+		re7 = "(\\d+)";			// Integer Number 1
+		re8 = "(:)";			// Any Single Character 5
+		re9 = "(.*)";
+
+		if (!r.Compile(re1 + re2 + re3 + re4 + re5 + re6 + re7 + re8 + re9))
+			wxMessageBox("Error compile pattern regex");
+		if (r.Matches(line))
+		{
+			wxString fileName = r.GetMatch(line, 3) + r.GetMatch(line, 4) + r.GetMatch(line, 5);
+			wxString type = r.GetMatch(line, 12).Trim();
+			wxString lineNum = r.GetMatch(line, 7).Trim();
+			wxString msg = r.GetMatch(line, 9).Trim();
+
+			if (!msg.IsEmpty())
+			{
+				if (lastFile != fileName && loc == lastLoc)
+				{
+					loc = "";
+					lastLoc = "";
+				}
+
+				if (type.Lower().Contains("error"))
+					hasError++;
+
+				wxListItem li = CreateListItem(0, fileName.c_str(), lineNum.c_str(), loc.c_str(), type.c_str(), msg.c_str());
+				ListViewModify(m_errorList, li);
+
+				if (type.Lower().Contains("warn") == false && msg.Trim().Lower() != "from")
+					ListViewModify(m_errorOnlyList, li);
+
+				lastLoc = loc;
+				lastFile = fileName;
+
+				if (locIsFunct == false)
+				{
+					loc = "";
+					lastLoc = "";
+				}
+			}
+			continue;
+		}
+
+		re1 = "([a-z0-9_]+)";	// Variable Name 1
+		re2 = "(\\.)";			// Any Single Character 1
+		re3 = "([a-z0-9_]+)";	// Variable Name 2
+		re4 = "(:)";			// Any Single Character 2
+		re5 = "(\\s+)";			// The Rest
+		re6 = "(.*)";			// The Rest
+
+		if (!r.Compile(re1 + re2 + re3 + re4 + re5 + re6))
+			wxMessageBox("Error compile pattern regex");
+		if ( r.Matches(line) )
+		{
+			wxString loc_ = r.GetMatch(line, 6).Trim();
+			if (loc_.Lower().Contains("function"))
+			{
+				loc = loc_.Mid(0, loc_.Lower().Find("function") + wxString("function").Len()).Trim();
+				loc = loc.Trim();
+				locIsFunct = true;
+			}
+			else if (loc_.Lower().Contains("top level"))
+			{
+				loc = "top level";
+			}
+			else
+			{
+				TextBoxModify(m_outputTextCtrl, line);
+			}
+			continue;
+		}
+
+		re1 = "(from)";
+		re2 = "(\\s*)";
+		re3 = "([a-z0-9_]+)";	// Variable Name 1
+		re4 = "(\\.)";			// Any Single Character 1
+		re5 = "([a-z0-9_]+)";	// Variable Name 2
+		re6 = "(\\s*)";
+		re7 = "(:)";
+		re8 = "(\\d+)";			// Integer Number 1
+		//re9 = "(:|,)";
+
+		if (!r.Compile(re1 + re2 + re3 + re4 + re5 + re6 + re7 + re8))
+			wxMessageBox("Error compile pattern regex");
+		if ( r.Matches(line) )
+		{
+			wxString type = "";
+			wxString lineNum = r.GetMatch(line, 8).Trim();
+			wxString msg = r.GetMatch(line, 1).Trim();
+			loc = r.GetMatch(line, 3) + r.GetMatch(line, 4) + r.GetMatch(line, 5);
+			wxString fileName = loc;
+			locIsFunct = false;
+
+			if (msg.IsEmpty())
+			{
+				if (type.Lower().Contains("error"))
+					hasError++;
+
+				wxListItem li = CreateListItem(0, fileName.c_str(), lineNum.c_str(), loc.c_str(), type.c_str(), msg.c_str());
+				ListViewModify(m_errorList, li);
+
+				if (type.Lower().Contains("warn") == false && msg.Trim().Lower() != "from")
+					ListViewModify(m_errorOnlyList, li);
+			}
+			continue;
+		}
+
+		re1 = "(from)";
+		re2 = "(\\s*)";
+		re3 = "(.*)";
+		re4 = "(\\\\|\\/)";
+		re5 = "([a-z0-9_]+)";	// Variable Name 1
+		re6 = "(\\.)";			// Any Single Character 1
+		re7 = "([a-z0-9_]+)";	// Variable Name 2
+		re8 = "(\\s*)";
+		re9 = "(:)";
+		re10 = "(\\d+)";		// Integer Number 1
+		//re11 = "(:|,)";
+
+		if (!r.Compile(re1 + re2 + re3 + re4 + re5 + re6 + re7 + re8 + re9 + re10))
+			wxMessageBox("Error compile pattern regex");
+		if ( r.Matches(line) )
+		{
+			wxString type = "";
+			wxString lineNum = r.GetMatch(line, 10).Trim();
+			wxString msg = r.GetMatch(line, 1).Trim();
+			loc = r.GetMatch(line, 5) + r.GetMatch(line, 6) + r.GetMatch(line, 7);
+			wxString fileName = loc;
+			locIsFunct = false;
+
+			if (msg.IsEmpty())
+			{
+				if (type.Lower().Contains("error"))
+					hasError++;
+
+				wxListItem li = CreateListItem(0, fileName.c_str(), lineNum.c_str(), loc.c_str(), type.c_str(), msg.c_str());
+				ListViewModify(m_errorList, li);
+
+				if (type.Lower().Contains("warn") == false && msg.Trim().Lower() != "from")
+					ListViewModify(m_errorOnlyList, li);
+			}
+			continue;
+		}
+
+		// undefined reference
+		//   EXAMPLE: Serial.o:(.rodata._ZTV6Serial+0x12): undefined reference to `Stream::skipUntil(unsigned char)'
+		re1 = "(.*?)"; // object filename
+		re2 = "(:\\()";
+		re3 = "(.*?)";
+		re4 = "(: undefined reference to)";
+		re5 = "(.*)"; // message
+
+		if (!r.Compile(re1 + re2 + re3 + re4 + re5))
+			wxMessageBox("Error compile pattern regex");
+		if ( r.Matches(line) )
+		{
+			wxString type = "";
+			wxString lineNum = "";
+			wxString msg = "undefined reference to" + r.GetMatch(line, 5).Trim();
+			loc = r.GetMatch(line, 1);
+			wxString fileName = loc;
+			locIsFunct = false;
+
+			hasError++;
+			wxListItem li = CreateListItem(0, fileName.c_str(), lineNum.c_str(), loc.c_str(), type.c_str(), msg.c_str());
+			ListViewModify(m_errorList, li);
+			ListViewModify(m_errorOnlyList, li);
+
+			continue;
+		}
+
+		if (outputElse)
+		{
+			if (!line.IsEmpty())
+				TextBoxModify(m_outputTextCtrl, line);
+		}
+		else
+		{
+			wxListItem li = CreateListItem(0, "", "", "", "", line.c_str());
+			ListViewModify(m_errorList, li);
+			ListViewModify(m_errorOnlyList, li);
+		}
+	}
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+

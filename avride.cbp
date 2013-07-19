@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="avride" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="Release/avride" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="$(#wx)/lib/gcc_lib/msw" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx)/lib/gcc_lib/msw" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="libwxmsw28_stc.a" />
+					<Add library="libwxmsw28_aui.a" />
+					<Add library="libwxmsw28_core.a" />
+					<Add library="libwxbase28_xml.a" />
+					<Add library="libwxbase28.a" />
+					<Add library="libwxexpat.a" />
+					<Add library="libwxregex.a" />
+					<Add library="libwxpng.a" />
+					<Add library="libwxzlib.a" />
+					<Add directory="$(#wx)/lib/gcc_lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-pipe" />
+			<Add option="-D__GNUWIN32__" />
+			<Add option="-D__WXMSW__" />
+			<Add option='[[if (PLATFORM == PLATFORM_MSW &amp;&amp; (GetCompilerFactory().GetCompilerVersionString(_T(&quot;gcc&quot;)) &gt;= _T(&quot;4.0.0&quot;))) print(_T(&quot;-Wno-attributes&quot;));]]' />
+			<Add option="-Wall" />
+			<Add directory="$(#wx)/include" />
+			<Add directory="$(#wx)/contrib/include" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="$(#wx)/include" />
+		</ResourceCompiler>
+		<Linker>
+			<Add library="libkernel32.a" />
+			<Add library="libuser32.a" />
+			<Add library="libgdi32.a" />
+			<Add library="libwinspool.a" />
+			<Add library="libcomdlg32.a" />
+			<Add library="libadvapi32.a" />
+			<Add library="libshell32.a" />
+			<Add library="libole32.a" />
+			<Add library="liboleaut32.a" />
+			<Add library="libuuid.a" />
+			<Add library="libcomctl32.a" />
+			<Add library="libwsock32.a" />
+			<Add library="libodbc32.a" />
+		</Linker>
+		<Unit filename="BurnerPanel.cpp" />
+		<Unit filename="BurnerPanel.h" />
+		<Unit filename="ConfigDialog.cpp" />
+		<Unit filename="ConfigDialog.h" />
+		<Unit filename="DefsExt.h" />
+		<Unit filename="EditorPanel.cpp" />
+		<Unit filename="EditorPanel.h" />
+		<Unit filename="Error.cpp" />
+		<Unit filename="Error.h" />
+		<Unit filename="FileTreePanel.cpp" />
+		<Unit filename="FileTreePanel.h" />
+		<Unit filename="IDEFrame.cpp" />
+		<Unit filename="IDEFrame.h" />
+		<Unit filename="ProjectBuilderBurner.cpp" />
+		<Unit filename="ProjectBuilderBurner.h" />
+		<Unit filename="ProjectManagment.cpp" />
+		<Unit filename="ProjectManagment.h" />
+		<Unit filename="RecentFiles.cpp" />
+		<Unit filename="RecentFiles.h" />
+		<Unit filename="SettingsDialog.cpp" />
+		<Unit filename="SettingsDialog.h" />
+		<Unit filename="Sketch_07_08_2013_1.avrproj" />
+		<Unit filename="StyledTextCtrl.cpp" />
+		<Unit filename="StyledTextCtrl.h" />
+		<Unit filename="WelcomeWindow.cpp" />
+		<Unit filename="WelcomeWindow.h" />
+		<Unit filename="XmlUtils.h" />
+		<Unit filename="chips.txt" />
+		<Unit filename="sample.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="scintconfig.xml" />
+		<Unit filename="temp_src" />
+		<Unit filename="test/test.avrproj" />
+		<Unit filename="todo" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

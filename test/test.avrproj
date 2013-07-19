@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<Project>
+  <DirPath>D:\Projects\avride\test</DirPath>
+  <HasBeenConfigged>false</HasBeenConfigged>
+  <Device>atmega16</Device>
+  <ClockFreq>8000000</ClockFreq>
+  <LinkerOpt></LinkerOpt>
+  <OtherOpt>-Wall -gdwarf-2</OtherOpt>
+  <OtherOptionsForC>-std=gnu99</OtherOptionsForC>
+  <OtherOptionsForCPP>-std=c99</OtherOptionsForCPP>
+  <OtherOptionsForS></OtherOptionsForS>
+  <OutputDir>output</OutputDir>
+  <Optimization>-Os</Optimization>
+  <UseInitStack>true</UseInitStack>
+  <InitStackAddr>0x0000</InitStackAddr>
+  <PackStructs>true</PackStructs>
+  <ShortEnums>true</ShortEnums>
+  <UnsignedBitfields>true</UnsignedBitfields>
+  <UnsignedChars>true</UnsignedChars>
+  <FunctionSections>true</FunctionSections>
+  <DataSections>true</DataSections>
+  <IncludeDirList>
+    <DirPath>.</DirPath>
+  </IncludeDirList>
+  <LibraryDirList/>
+  <LinkObjList/>
+  <LinkLibList/>
+  <MemorySegList/>
+  <BurnPart>ATMEGA16</BurnPart>
+  <BurnProgrammer>usbasp</BurnProgrammer>
+  <BurnOptions></BurnOptions>
+  <BurnPort>COM1</BurnPort>
+  <BurnFuseBox></BurnFuseBox>
+  <BurnBaud>0</BurnBaud>
+  <BurnAutoReset>true</BurnAutoReset>
+  <LastFile>dummy.c</LastFile>
+  <FileList>
+    <File>
+      <RelPath>dummy.c</RelPath>
+      <ToCompile>true</ToCompile>
+      <Options></Options>
+      <WasOpen>false</WasOpen>
+      <CursorPos></CursorPos>
+      <Bookmarks></Bookmarks>
+    </File>
+    <File>
+      <RelPath>rty.c</RelPath>
+      <ToCompile>true</ToCompile>
+      <Options></Options>
+      <WasOpen>false</WasOpen>
+      <CursorPos></CursorPos>
+      <Bookmarks></Bookmarks>
+    </File>
+  </FileList>
+</Project>
