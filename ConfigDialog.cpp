@@ -7,6 +7,8 @@
 #include <wx/dir.h>
 #include <wx/wfstream.h>
 #include <wx/txtstrm.h>
+#include <wx/tokenzr.h>
+#include <wx/confbase.h>
 
 
 BEGIN_EVENT_TABLE(ConfigDialog, wxDialog)
@@ -17,8 +19,6 @@ BEGIN_EVENT_TABLE(ConfigDialog, wxDialog)
 
 	EVT_BUTTON(ID_INCLUDE_PATH_ADD,			ConfigDialog::OnIncludeDirAdd)
 	EVT_BUTTON(ID_LIBRARY_PATH_ADD,			ConfigDialog::OnLibraryDirAdd)
-
-
 END_EVENT_TABLE()
 
 
@@ -63,38 +63,50 @@ ConfigDialog::ConfigDialog(AVRProject *prj, wxWindow *parent, const wxString& ti
 			}
 		}
 */
-		wxString fileChips = "chips.txt";
-		if (wxFileExists(fileChips))
-		{
-			wxFileInputStream fis(fileChips);
-			wxTextInputStream text(fis);
+		//wxString fileChips = "chips.txt";
+		//if (wxFileExists(fileChips))
+		//{
+		//	wxFileInputStream fis(fileChips);
+		//	wxTextInputStream text(fis);
 
-			while (fis.IsOk())
-			{
-				wxString name = text.ReadLine().Lower();
-				if (!name.IsEmpty() && orderedDevices.Index(name) == wxNOT_FOUND)
-					orderedDevices.Add(name);
-			}
-		}
+			//while (fis.IsOk())
+			//{
+			//	wxString name = text.ReadLine().Lower();
+			//	if (!name.IsEmpty() && orderedDevices.Index(name) == wxNOT_FOUND)
+			//		orderedDevices.Add(name);
+			//}
+		//}
 
+		wxString chips = g_chips + wxConfigBase::Get()->Read("/chips/list", "");
 
+		orderedDevices = wxStringTokenize(chips, " ");
+		orderedDevices.Sort();
 	}
 
 	dropDevices->Clear();
 	for (size_t i = 0; i < orderedDevices.GetCount(); ++i)
 		dropDevices->Append(orderedDevices[i]);
 
+	project->m_hasBeenConfigged = true;
+	originalProject->m_hasBeenConfigged = true;
+
 	PopulateForm();
 	Center();
+}
+
+ConfigDialog::~ConfigDialog()
+{
+	delete project;
 }
 
 // --- Events
 
 void ConfigDialog::OnOk(wxCommandEvent& event)
 {
+
 	ApplyChanges();
 
-	if (!project->Save())
+	if (!originalProject->Save())
 		wxMessageBox("Error saving project");
 	else
 		event.Skip();

@@ -2,7 +2,7 @@
 int 
 func()
 {
-	do
+	dogg
 	{
 	} while(1);
 

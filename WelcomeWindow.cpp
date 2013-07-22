@@ -159,5 +159,5 @@ void WelcomeWindow::OnCloseWindow(wxCloseEvent& event)
 		RecentFiles::SaveRecentList();
 	}
 	wxLogVerbose("WelcomeWindow::OnCloseWindow");
-	Destroy();
+	EndModal(wxID_OK);
 }

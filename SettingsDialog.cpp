@@ -223,6 +223,8 @@ void SettingsDialog::CreateControls()
 	pickerSizer->Add(m_foreColourPicker, 1, wxEXPAND);
 	pickerSizer->Add(new wxStaticText(this, wxID_ANY, "Back Colour:"), 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL);
 	pickerSizer->Add(m_backColourPicker, 1, wxEXPAND);
+	pickerSizer->Add(new wxStaticText(this, wxID_ANY, "Font Size:"), 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL);
+	pickerSizer->Add(m_fontSizeSpin, 1, wxEXPAND);
 
 	wxStaticBoxSizer *rightSizer = new wxStaticBoxSizer(wxVERTICAL, this, "Colour and Font");
 	rightSizer->Add(m_languageChoice, 0,  wxEXPAND|wxALL, 5);
@@ -230,7 +232,6 @@ void SettingsDialog::CreateControls()
 	rightSizer->Add(pickerSizer, 0, wxEXPAND|wxALL, 5);
 	rightSizer->Add(m_boldCheckBox, 0, wxALL, 5);
 	rightSizer->Add(m_italicCheckBox, 0, wxALL, 5);
-	rightSizer->Add(m_fontSizeSpin, 0, wxALL, 5);
 
 	wxBoxSizer *topSizer = new wxBoxSizer(wxHORIZONTAL);
 	topSizer->Add(leftSizer, 1, wxEXPAND|wxRIGHT, 5);

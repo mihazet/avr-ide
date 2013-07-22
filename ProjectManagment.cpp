@@ -16,6 +16,7 @@ ProjectFile::ProjectFile(const wxString fileAbsPath, AVRProject *project)
 		m_toCompile = true;
 	m_options = "";
 	m_isOpen = false;
+	m_cursorPos = 0;
 }
 
 // --- AVRProject
@@ -121,7 +122,7 @@ bool AVRProject::Save(const wxString& filepath)
 		XmlUtils::WriteElementString(node1, "ToCompile", file->ToCompile() ? "true": "false");
 		XmlUtils::WriteElementString(node1, "Options", "");
 		XmlUtils::WriteElementString(node1, "WasOpen", file->IsOpen() ? "true": "false");
-		XmlUtils::WriteElementString(node1, "CursorPos", "");
+		XmlUtils::WriteElementString(node1, "CursorPos", wxString::Format("%d", file->m_cursorPos));
 		XmlUtils::WriteElementString(node1, "Bookmarks", "");
 	}
 
@@ -288,6 +289,9 @@ bool AVRProject::Open(const wxString& filepath)
 					ProjectFile *newFile = new ProjectFile(fileName.GetFullPath(), this);
 					newFile->SetToCompile(XmlUtils::ReadElementStringByTag(fileNode, "ToCompile") == "true");
 					newFile->SetIsOpen(XmlUtils::ReadElementStringByTag(fileNode, "WasOpen") == "true");
+					long pos;
+					if (XmlUtils::ReadElementStringByTag(fileNode, "CursorPos").ToLong(&pos))
+						newFile->m_cursorPos = pos;
 					m_fileList[newFile->FileName()] = newFile;
 				}
 			}

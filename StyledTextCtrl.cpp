@@ -195,6 +195,105 @@ bool StyledTextCtrl::InitializePrefs (const wxString& name)
 	return true;
 }
 
+bool StyledTextCtrl::FindNext(wxString text, int flags)
+{
+	// set the search anchor
+	int pos = GetCurrentPos();
+	if (pos != GetLength())
+	{
+		SetCurrentPos(pos + 1);
+	}
+	SearchAnchor();
+	int spos = SearchNext(flags, text);
+	EnsureCaretVisible();
+	if (spos == -1)
+	{
+		SetCurrentPos(pos);
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+bool StyledTextCtrl::FindPrevious(wxString text, int flags)
+{
+	// set the search anchor
+	int pos = GetCurrentPos();
+	if (pos != GetLength())
+	{
+		SetCurrentPos(pos - 1);
+	}
+	SearchAnchor();
+	int spos = SearchPrev(flags, text);
+	EnsureCaretVisible();
+	if (spos == -1)
+	{
+		SetCurrentPos(pos);
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+void StyledTextCtrl::Comment()
+{
+	// Comment out the selected lines
+	int startPos, endPos;
+	GetSelection(&startPos, &endPos);
+	int start = LineFromPosition(startPos);
+	int end = LineFromPosition(endPos);
+	if (start > end)	// swap around
+	{
+		int tmp = start;
+		start = end;
+		end = tmp;
+	}
+	// start an undo mark
+	BeginUndoAction();
+	for	(int ln = start; ln < end + 1; ln++)
+	{
+		int linestart = PositionFromLine(ln);
+		InsertText(linestart, "//");
+	}
+	// finish the undo mark
+	EndUndoAction();
+}
+
+void StyledTextCtrl::UnComment()
+{
+	// UnComment out the selected lines"""
+	int startPos, endPos;
+	GetSelection(&startPos, &endPos);
+	int start = LineFromPosition(startPos);
+	int end = LineFromPosition(endPos);
+	if (start > end)	// swap around
+	{
+		int tmp = start;
+		start = end;
+		end = tmp;
+	}
+	// start an undo mark
+	BeginUndoAction();
+	for	(int ln = start; ln < end + 1; ln++)
+	{
+		int linestart = PositionFromLine(ln);
+		if (char(GetCharAt(linestart)) == '/' && char(GetCharAt(linestart + 1)) == '/')
+		{
+			// set cursor to the right of the //
+			SetCurrentPos(linestart + 2);
+			// delete to the beginning of th line
+			DelLineLeft();
+		}
+	}
+	// finish the undo mark
+	EndUndoAction();
+}
+
+
 void StyledTextCtrl::OnMarginClick (wxStyledTextEvent &event)
 {
 	if (event.GetMargin() == 2)

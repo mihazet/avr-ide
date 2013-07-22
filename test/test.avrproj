@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <Project>
   <DirPath>D:\Projects\avride\test</DirPath>
-  <HasBeenConfigged>false</HasBeenConfigged>
+  <HasBeenConfigged>true</HasBeenConfigged>
   <Device>atmega16</Device>
   <ClockFreq>8000000</ClockFreq>
   <LinkerOpt></LinkerOpt>
@@ -40,7 +40,7 @@
       <ToCompile>true</ToCompile>
       <Options></Options>
       <WasOpen>false</WasOpen>
-      <CursorPos></CursorPos>
+      <CursorPos>42</CursorPos>
       <Bookmarks></Bookmarks>
     </File>
     <File>
@@ -48,7 +48,7 @@
       <ToCompile>true</ToCompile>
       <Options></Options>
       <WasOpen>false</WasOpen>
-      <CursorPos></CursorPos>
+      <CursorPos>0</CursorPos>
       <Bookmarks></Bookmarks>
     </File>
   </FileList>

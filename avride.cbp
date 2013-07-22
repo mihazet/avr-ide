@@ -33,6 +33,33 @@
 					<Add directory="$(#wx)/lib/gcc_lib" />
 				</Linker>
 			</Target>
+			<Target title="Debug">
+				<Option output="Debug/avride" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-D__WXDEBUG__" />
+					<Add directory="$(#wx)/lib/gcc_lib/mswd" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx)/lib/gcc_lib/mswd" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="libwxmsw28d_stc.a" />
+					<Add library="libwxmsw28d_aui.a" />
+					<Add library="libwxmsw28d_core.a" />
+					<Add library="libwxbase28d_xml.a" />
+					<Add library="libwxbase28d.a" />
+					<Add library="libwxexpatd.a" />
+					<Add library="libwxregexd.a" />
+					<Add library="libwxpngd.a" />
+					<Add library="libwxzlibd.a" />
+					<Add directory="$(#wx)/lib/gcc_lib" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-pipe" />
@@ -72,6 +99,8 @@
 		<Unit filename="Error.h" />
 		<Unit filename="FileTreePanel.cpp" />
 		<Unit filename="FileTreePanel.h" />
+		<Unit filename="FindPanel.cpp" />
+		<Unit filename="FindPanel.h" />
 		<Unit filename="IDEFrame.cpp" />
 		<Unit filename="IDEFrame.h" />
 		<Unit filename="ProjectBuilderBurner.cpp" />
@@ -101,6 +130,15 @@
 			<envvars />
 			<debugger />
 			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

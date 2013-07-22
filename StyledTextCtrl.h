@@ -102,6 +102,14 @@ public:
 	StyledTextCtrl(wxWindow *parent, wxWindowID id = wxID_ANY);
 	bool InitializePrefs (const wxString& name);
 
+	// Search
+	bool FindNext(wxString text, int flags);
+	bool FindPrevious(wxString text, int flags);
+	// Comment/Uncomment
+	void Comment();
+	void UnComment();
+
+
 private:
 	DECLARE_EVENT_TABLE()
 	void OnMarginClick (wxStyledTextEvent &event);

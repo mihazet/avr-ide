@@ -8,7 +8,7 @@
 #include "SettingsDialog.h"
 #include "DefsExt.h"
 #include "Error.h"
-
+#include "FindPanel.h"
 
 #include <wx/notebook.h>
 #include <wx/fileconf.h>
@@ -29,6 +29,7 @@ bool IDEApp::OnInit()
 BEGIN_EVENT_TABLE(IDEFrame, wxFrame)
 	EVT_TREE_ITEM_ACTIVATED(ID_TREE,			IDEFrame::OnTreePanelDClick)
 	EVT_CLOSE(									IDEFrame::OnCloseWindow)
+	EVT_LIST_ITEM_ACTIVATED(ID_LIST_BUILD,		IDEFrame::OnBuildListDClick)
 	// Aui
 	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUI_NOTEBOOK,	IDEFrame::OnAuiNotebookPageChanged)
 	EVT_AUINOTEBOOK_PAGE_CLOSE(ID_AUI_NOTEBOOK,		IDEFrame::OnAuiNotebookCloseButton)
@@ -49,6 +50,11 @@ BEGIN_EVENT_TABLE(IDEFrame, wxFrame)
 	EVT_MENU(ID_EDIT_PASTE,						IDEFrame::OnEditPaste)
 	EVT_MENU(ID_EDIT_FIND_AND_REPLACE,			IDEFrame::OnEditFindAndReplace)
 	EVT_MENU(ID_EDIT_FIND_NEXT,					IDEFrame::OnEditFindNext)
+	EVT_MENU(ID_EDIT_FIND_PREVIOUS,				IDEFrame::OnEditFindPrevious)
+	// from FindPanel
+	EVT_BUTTON(ID_EDIT_FIND_NEXT,				IDEFrame::OnEditFindNext)
+	EVT_BUTTON(ID_EDIT_FIND_PREVIOUS,			IDEFrame::OnEditFindPrevious)
+
 	EVT_MENU(ID_EDIT_SEARCH_IN_PROJECT,			IDEFrame::OnEditSearchInProject)
 	EVT_MENU(ID_EDIT_GOTO_LINE,					IDEFrame::OnEditGotoLine)
 	EVT_MENU(ID_EDIT_INDENT,					IDEFrame::OnEditIndent)
@@ -90,6 +96,8 @@ IDEFrame::IDEFrame(AVRProject *project)
 
 	m_fileTreePanel = new FileTreePanel(this, ID_TREE);
 
+	m_findPanel = new FindPanel(this);
+
 	m_auiLogBook = new wxAuiNotebook(this, wxID_ANY);
 
 	wxTextCtrl *logText = new wxTextCtrl(	m_auiLogBook, wxID_ANY, "",
@@ -105,7 +113,7 @@ IDEFrame::IDEFrame(AVRProject *project)
 
 
 
-	m_buildList = new wxListCtrl(	m_auiLogBook, wxID_ANY,
+	m_buildList = new wxListCtrl(	m_auiLogBook, ID_LIST_BUILD,
 									wxDefaultPosition, wxDefaultSize,
 									wxLC_SINGLE_SEL|wxLC_REPORT);
 
@@ -121,7 +129,8 @@ IDEFrame::IDEFrame(AVRProject *project)
 
 	m_auiManager.SetManagedWindow(this);
 	m_auiManager.AddPane(m_fileTreePanel, wxAuiPaneInfo().Left().Caption("Files").MinSize(200, 150).Layer(1));
-	m_auiManager.AddPane(m_auiLogBook, wxAuiPaneInfo().Bottom().Caption("Logs & others").MinSize(200, 150).Layer(0));
+	m_auiManager.AddPane(m_findPanel, wxAuiPaneInfo().Bottom().Caption("Find").MinSize(m_findPanel->GetSize()).Layer(0).Row(1).Hide());
+	m_auiManager.AddPane(m_auiLogBook, wxAuiPaneInfo().Bottom().Caption("Logs & others").MinSize(200, 150).Layer(0).Row(0));
 	m_auiManager.AddPane(m_auiNotebook, wxAuiPaneInfo().CenterPane());
 	m_auiManager.Update();
 
@@ -169,10 +178,12 @@ void IDEFrame::CreateMenubar()
 	edit_menu->Append(ID_EDIT_COPY, "Copy\tCtrl-C");
 	edit_menu->Append(ID_EDIT_PASTE, "Paste\tCtrl-V");
 	edit_menu->AppendSeparator();
-	edit_menu->Append(ID_EDIT_FIND_AND_REPLACE, "Find and Replace\tCtrl-F");
+	edit_menu->Append(ID_EDIT_FIND_AND_REPLACE, "Quick Find\tCtrl-F");
+	//edit_menu->Append(ID_EDIT_FIND_AND_REPLACE, "Find and Replace\tCtrl-F");
 	edit_menu->Append(ID_EDIT_FIND_NEXT, "Find Next\tF3");
-	edit_menu->Append(ID_EDIT_SEARCH_IN_PROJECT, "Search in Project");
-	edit_menu->Append(ID_EDIT_GOTO_LINE, "Goto Line\tCtrl-G");
+	edit_menu->Append(ID_EDIT_FIND_PREVIOUS, "Find Previous\tShift-F3");
+	//edit_menu->Append(ID_EDIT_SEARCH_IN_PROJECT, "Search in Project");
+	//edit_menu->Append(ID_EDIT_GOTO_LINE, "Goto Line\tCtrl-G");
 	edit_menu->AppendSeparator();
 
 	wxMenu *edit_menu_block_edit = new wxMenu();
@@ -182,14 +193,14 @@ void IDEFrame::CreateMenubar()
 	edit_menu_block_edit->Append(ID_EDIT_UNCOMMENT, "Uncomment");
 	edit_menu->AppendSubMenu(edit_menu_block_edit, "Block Edit");
 
-	edit_menu->Append(ID_EDIT_CLEAR_HIGHLIGHT, "Clear HighLights");
+	//edit_menu->Append(ID_EDIT_CLEAR_HIGHLIGHT, "Clear HighLights");
 
-	wxMenu *edit_menu_bookmarks = new wxMenu();
-	edit_menu_bookmarks->Append(ID_EDIT_TOGGLE_BOOKMARK, "Toggle Bookmark\tCtrl-F2");
-	edit_menu_bookmarks->Append(ID_EDIT_DELETE_ALL_BOOKMARKS, "Delete All Bookmarks\tCtrl-Shift-F2");
-	edit_menu_bookmarks->Append(ID_EDIT_GOTO_PREV_BOOKMARK, "Coto Prev Bookmark\tShift-F2");
-	edit_menu_bookmarks->Append(ID_EDIT_GOTO_NEXT_BOOKMARK, "Coto Next Bookmark\tF2");
-	edit_menu->AppendSubMenu(edit_menu_bookmarks, "Bookmarks");
+	//wxMenu *edit_menu_bookmarks = new wxMenu();
+	//edit_menu_bookmarks->Append(ID_EDIT_TOGGLE_BOOKMARK, "Toggle Bookmark\tCtrl-F2");
+	//edit_menu_bookmarks->Append(ID_EDIT_DELETE_ALL_BOOKMARKS, "Delete All Bookmarks\tCtrl-Shift-F2");
+	//edit_menu_bookmarks->Append(ID_EDIT_GOTO_PREV_BOOKMARK, "Coto Prev Bookmark\tShift-F2");
+	//edit_menu_bookmarks->Append(ID_EDIT_GOTO_NEXT_BOOKMARK, "Coto Next Bookmark\tF2");
+	//edit_menu->AppendSubMenu(edit_menu_bookmarks, "Bookmarks");
 
 
 	wxMenu *tools_menu = new wxMenu();
@@ -303,7 +314,7 @@ void IDEFrame::UpdateUI()
 	SetTitle( m_project->FileNameNoExt() + " - AVR IDE" );
 }
 
-void IDEFrame::GotoEditor(const wxString& filename)
+void IDEFrame::GotoEditor(const wxString& filename, int line)
 {
 	EditorPanel *editor = m_editorList[filename];
 	if (!editor)
@@ -316,6 +327,9 @@ void IDEFrame::GotoEditor(const wxString& filename)
 		// делаем активным
 		int indexPage = m_auiNotebook->GetPageIndex(editor);
 		m_auiNotebook->SetSelection(indexPage);
+		editor->STC()->SetFocus();
+		if (line != -1)
+			editor->STC()->GotoLine(line);
 		m_lastEditor = editor;
 	}
 }
@@ -361,6 +375,23 @@ void IDEFrame::OnCloseWindow(wxCloseEvent& event)
 	if (exit)
 		event.Skip();
 }
+
+void IDEFrame::OnBuildListDClick(wxListEvent& event)
+{
+	wxListItem item;
+	item.SetId(event.GetIndex());
+	item.SetColumn(1);
+	item.SetMask(wxLIST_MASK_TEXT);
+	m_buildList->GetItem(item);
+
+	long line = 0;
+	if (item.GetText().ToLong(&line))
+	{
+		wxString file = wxFileNameFromPath(m_buildList->GetItemText(event.GetIndex()));
+		GotoEditor(file, line - 1);
+	}
+}
+
 
 // --- Aui events
 
@@ -504,13 +535,53 @@ void IDEFrame::OnEditPaste(wxCommandEvent& event)
 void IDEFrame::OnEditFindAndReplace(wxCommandEvent& event)
 {
 	if (m_lastEditor)
-		;
+		m_lastEditor->STC()->SetFocus();
+	m_auiManager.GetPane(m_findPanel).Show();
+	m_auiManager.Update();
 }
 
 void IDEFrame::OnEditFindNext(wxCommandEvent& event)
 {
+	if (!m_auiManager.GetPane(m_findPanel).IsShown())
+		return;
+
+	wxString find_value = m_findPanel->FindString();
+
+	int flags = 0;
+
+	if (m_findPanel->MatchCase())
+		flags |= wxSTC_FIND_MATCHCASE;
+	if (m_findPanel->WholeWorld())
+		flags |= wxSTC_FIND_WHOLEWORD;
+
+
 	if (m_lastEditor)
-		;
+	{
+		if (!m_lastEditor->STC()->FindNext(find_value, flags))
+			wxBell();
+	}
+}
+
+void IDEFrame::OnEditFindPrevious(wxCommandEvent& event)
+{
+	if (!m_auiManager.GetPane(m_findPanel).IsShown())
+		return;
+
+	wxString find_value = m_findPanel->FindString();
+
+	int flags = 0;
+
+	if (m_findPanel->MatchCase())
+		flags |= wxSTC_FIND_MATCHCASE;
+	if (m_findPanel->WholeWorld())
+		flags |= wxSTC_FIND_WHOLEWORD;
+
+
+	if (m_lastEditor)
+	{
+		if (!m_lastEditor->STC()->FindPrevious(find_value, flags))
+			wxBell();
+	}
 }
 
 void IDEFrame::OnEditSearchInProject(wxCommandEvent& event)
@@ -527,22 +598,26 @@ void IDEFrame::OnEditGotoLine(wxCommandEvent& event)
 
 void IDEFrame::OnEditIndent(wxCommandEvent& event)
 {
+	if (m_lastEditor)
+		m_lastEditor->STC()->CmdKeyExecute(wxSTC_CMD_TAB);
 }
 
 void IDEFrame::OnEditUnindent(wxCommandEvent& event)
 {
+	if (m_lastEditor)
+		m_lastEditor->STC()->CmdKeyExecute(wxSTC_CMD_BACKTAB);
 }
 
 void IDEFrame::OnEditComment(wxCommandEvent& event)
 {
 	if (m_lastEditor)
-		;
+		m_lastEditor->STC()->Comment();
 }
 
 void IDEFrame::OnEditUncomment(wxCommandEvent& event)
 {
 	if (m_lastEditor)
-		;
+		m_lastEditor->STC()->UnComment();
 }
 
 void IDEFrame::OnEditClearHighLights(wxCommandEvent& event)
@@ -723,6 +798,12 @@ void IDEFrame::HandleNewOpenProj(AVRProject *newProj)
 	m_project = newProj;
 	delete keep;
 	m_editorList.clear();
+	if (!m_project->HasBeenConfigged())
+	{
+		ConfigDialog dlg(m_project, this, "Project Configuration");
+		dlg.ShowModal();
+	}
+
 	// update ui
 	UpdateUI();
 }

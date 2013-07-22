@@ -9,6 +9,7 @@ class ConfigDialog : public wxDialog
 {
 public:
 	ConfigDialog(AVRProject *prj, wxWindow *parent, const wxString& title);
+	~ConfigDialog();
 
 private:
 	DECLARE_EVENT_TABLE()
