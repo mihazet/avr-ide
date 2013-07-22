@@ -1835,13 +1835,13 @@
 	"wx/treebase.h"
 	"wx/hashmap.h"
 
-1373867216 source:d:\projects\avride\projectmanagment.cpp
+1374411978 source:d:\projects\avride\projectmanagment.cpp
 	"ProjectManagment.h"
 	<wx/xml/xml.h>
 	<wx/confbase.h>
 	"XmlUtils.h"
 
-1373970102 d:\projects\avride\projectmanagment.h
+1374413226 d:\projects\avride\projectmanagment.h
 	<wx/wx.h>
 	<wx/filename.h>
 	"defsext.h"
@@ -3714,7 +3714,7 @@
 	"wx/icon.h"
 	"wx/aui/auibook.h"
 
-1373958858 source:d:\projects\avride\editorpanel.cpp
+1374413259 source:d:\projects\avride\editorpanel.cpp
 	"editorpanel.h"
 	"ideframe.h"
 	"projectmanagment.h"
@@ -3723,7 +3723,7 @@
 	<wx/wx.h>
 	"StyledTextCtrl.h"
 
-1373979480 source:d:\projects\avride\ideframe.cpp
+1374414325 source:d:\projects\avride\ideframe.cpp
 	"ideframe.h"
 	"FileTreePanel.h"
 	"EditorPanel.h"
@@ -3734,13 +3734,15 @@
 	"SettingsDialog.h"
 	"DefsExt.h"
 	"Error.h"
+	"FindPanel.h"
 	<wx/notebook.h>
 	<wx/fileconf.h>
 
-1373969574 d:\projects\avride\ideframe.h
+1374409459 d:\projects\avride\ideframe.h
 	<wx/wx.h>
 	<wx/aui/aui.h>
 	<wx/listctrl.h>
+	<wx/fdrepdlg.h>
 
 1264663574 c:\wx\wxwidgets-2.8.12\contrib\include\wx\stc\stc.h
 	"wx/wx.h"
@@ -3818,7 +3820,7 @@
 	"wx/object.h"
 	"wx/list.h"
 
-1373823872 source:d:\projects\avride\welcomewindow.cpp
+1374080353 source:d:\projects\avride\welcomewindow.cpp
 	"WelcomeWindow.h"
 	"ProjectManagment.h"
 	"RecentFiles.h"
@@ -3906,7 +3908,7 @@
 
 1373702128 d:\projects\avride\enumsandstructs.h
 
-1373823872 source:d:\projects\avride\configdialog.cpp
+1374411537 source:d:\projects\avride\configdialog.cpp
 	"ConfigDialog.h"
 	"ProjectManagment.h"
 	"BurnerPanel.h"
@@ -3915,8 +3917,10 @@
 	<wx/dir.h>
 	<wx/wfstream.h>
 	<wx/txtstrm.h>
+	<wx/tokenzr.h>
+	<wx/confbase.h>
 
-1373813592 d:\projects\avride\configdialog.h
+1374079046 d:\projects\avride\configdialog.h
 	<wx/wx.h>
 	<wx/listctrl.h>
 	<wx/spinctrl.h>
@@ -3989,17 +3993,17 @@
 
 1373742648 d:\projects\avride\xmlutils.h
 
-1374047307 d:\projects\avride\styledtextctrl.h
+1374414249 d:\projects\avride\styledtextctrl.h
 	<wx/wx.h>
 	<wx/stc/stc.h>
 
-1374048111 source:d:\projects\avride\styledtextctrl.cpp
+1374414263 source:d:\projects\avride\styledtextctrl.cpp
 	"StyledTextCtrl.h"
 	<wx/confbase.h>
 	<wx/xml/xml.h>
 	"XmlUtils.h"
 
-1373881490 source:d:\projects\avride\recentfiles.cpp
+1374080737 source:d:\projects\avride\recentfiles.cpp
 	"RecentFiles.h"
 	<wx/wfstream.h>
 	<wx/txtstrm.h>
@@ -4018,7 +4022,7 @@
 	"ProjectBuilderBurner.h"
 	"DefsExt.h"
 
-1374064144 d:\projects\avride\defsext.h
+1374410352 d:\projects\avride\defsext.h
 
 1186404092 c:\wx\wxwidgets-2.8.12\include\wx\spinctrl.h
 	"wx/defs.h"
@@ -4096,13 +4100,13 @@
 
 1186404092 c:\wx\wxwidgets-2.8.12\include\wx\arrimpl.cpp
 
-1374053041 source:d:\projects\avride\settingsdialog.cpp
+1374078508 source:d:\projects\avride\settingsdialog.cpp
 	"SettingsDialog.h"
 	"DefsExt.h"
 	"StyledTextCtrl.h"
 	<wx/confbase.h>
 
-1374064144 d:\projects\avride\settingsdialog.h
+1374064146 d:\projects\avride\settingsdialog.h
 	<wx/wx.h>
 	<wx/spinctrl.h>
 	<wx/clrpicker.h>
@@ -4140,4 +4144,23 @@
 	"wx/button.h"
 	"wx/cmndata.h"
 	"wx/bmpbutton.h"
+
+1211169096 d:\wx\wxwidgets-2.8.12\include\wx\fdrepdlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/msw/fdrepdlg.h"
+	"wx/generic/fdrepdlg.h"
+
+1186400450 d:\wx\wxwidgets-2.8.12\include\wx\msw\fdrepdlg.h
+
+1186400486 d:\wx\wxwidgets-2.8.12\include\wx\generic\fdrepdlg.h
+
+1374329555 source:d:\projects\avride\finddialog.cpp
+
+1374408070 source:d:\projects\avride\findpanel.cpp
+	"FindPanel.h"
+	"DefsExt.h"
+
+1374405910 d:\projects\avride\findpanel.h
+	<wx/wx.h>
 

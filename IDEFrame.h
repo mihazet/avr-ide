@@ -1,11 +1,13 @@
 #include <wx/wx.h>
 #include <wx/aui/aui.h>
 #include <wx/listctrl.h>
+#include <wx/fdrepdlg.h>
 
 class AVRProject;
 class FileTreePanel;
 class wxTreeEvent;
 class EditorPanel;
+class FindPanel;
 
 WX_DECLARE_HASH_MAP(wxString, EditorPanel*, wxStringHash, wxStringEqual, EditorListHash);
 
@@ -24,7 +26,7 @@ public:
 
 	void UpdateUI();
 
-	void GotoEditor(const wxString& filename);
+	void GotoEditor(const wxString& filename, int line = -1);
 	EditorPanel *OpenEditor(const wxString& filename);
 
 	EditorListHash& EditorList() { return m_editorList; }
@@ -33,6 +35,7 @@ private:
 	DECLARE_EVENT_TABLE()
 	void OnTreePanelDClick(wxTreeEvent& event);
 	void OnCloseWindow(wxCloseEvent& event);
+	void OnBuildListDClick(wxListEvent& event);
 	// Aui NoteBook
 	void OnAuiNotebookPageChanged(wxAuiNotebookEvent& event);
 	void OnAuiNotebookCloseButton(wxAuiNotebookEvent& event);
@@ -53,6 +56,7 @@ private:
 	void OnEditPaste(wxCommandEvent& event);
 	void OnEditFindAndReplace(wxCommandEvent& event);
 	void OnEditFindNext(wxCommandEvent& event);
+	void OnEditFindPrevious(wxCommandEvent& event);
 	void OnEditSearchInProject(wxCommandEvent& event);
 	void OnEditGotoLine(wxCommandEvent& event);
 	void OnEditIndent(wxCommandEvent& event);
@@ -96,6 +100,15 @@ private:
 	// компиляции и линковки, прошивки
 	wxTextCtrl		*m_buildLog;
 	wxListCtrl		*m_buildList;
+
+	FindPanel		*m_findPanel;
+
+	// Specify what kind of wxFindReplaceDialog we have for search or for replace
+	bool IsReplaceDlg;
+
+	// Don't show MessageBox when can't found text when user want
+	// to ReplaceAll if at least one replace was made И не идем по кругу!
+	int IsReplaceAll;
 
 	bool			m_toBurnAfterBuild;
 };

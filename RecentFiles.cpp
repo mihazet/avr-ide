@@ -90,8 +90,10 @@ void RecentFiles::LoadRecentList()
 	for (size_t i = 0; ; ++i)
 	{
 		wxString entry = wxString::Format("/recent_files/%d", i);
-        if (!wxConfigBase::Get()->HasEntry(entry))
+		if (!wxConfigBase::Get()->HasEntry(entry))
         	break;
-   		m_recentFileList.Add(wxConfigBase::Get()->Read(entry, ""));
+        wxString file = wxConfigBase::Get()->Read(entry, "");
+        if (wxFileExists(file))
+   			m_recentFileList.Add(file);
     }
 }

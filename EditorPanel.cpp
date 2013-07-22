@@ -37,6 +37,8 @@ EditorPanel::EditorPanel(	ProjectFile *file, AVRProject *project,
 	{
 		m_stc->InitializePrefs("C++");
 	}
+
+
 }
 
 EditorPanel::~EditorPanel()
@@ -70,6 +72,7 @@ bool EditorPanel::SaveAs()
 
 	if (!filename.IsEmpty())
 	{
+		m_file->m_fileAbsPath = filename;
 		return Save(filename);
 	}
 	else

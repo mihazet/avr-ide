@@ -41,6 +41,7 @@ public:
 	}
 
 	wxString	m_options;
+	int			m_cursorPos;
 
 private:
 	AVRProject	*m_project;
@@ -62,7 +63,9 @@ public:
 	bool m_hasBeenConfigged;
 	bool m_isReady;
 
+	bool HasBeenConfigged() { return m_hasBeenConfigged; }
 	bool IsReady() { return m_isReady; }
+
 
 	wxString FilePath() { return m_filePath; }
 	void SetFilePath(wxString file)
